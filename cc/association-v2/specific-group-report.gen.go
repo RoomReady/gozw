@@ -7,7 +7,7 @@ import (
 	"encoding/gob"
 	"errors"
 
-	"github.com/gozwave/gozw/cc"
+	"github.com/rmacster/gozw/cc"
 )
 
 const CommandSpecificGroupReport cc.CommandID = 0x0C

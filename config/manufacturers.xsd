@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <xs:schema
 	xmlns:xs="http://www.w3.org/2001/XMLSchema"
-	targetNamespace="https://github.com/gozwave/gozw/"
-	xmlns:Manufacturers="https://github.com/gozwave/gozw/"
+	targetNamespace="https://github.com/rmacster/gozw/"
+	xmlns:Manufacturers="https://github.com/rmacster/gozw/"
 	elementFormDefault="qualified"
 >
 

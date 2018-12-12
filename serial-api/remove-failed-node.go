@@ -4,9 +4,9 @@ import (
 	"errors"
 	"time"
 
-	"github.com/gozwave/gozw/frame"
-	"github.com/gozwave/gozw/protocol"
-	"github.com/gozwave/gozw/session"
+	"github.com/rmacster/gozw/frame"
+	"github.com/rmacster/gozw/protocol"
+	"github.com/rmacster/gozw/session"
 )
 
 func (s *Layer) RemoveFailedNode(nodeID byte) (removed bool, err error) {

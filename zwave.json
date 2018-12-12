@@ -1,0 +1,33 @@
+{
+    "port": "/data/ttyACM2",
+    "nodes": {
+        "1": {
+            "113": {
+                "5": {
+                    "udpcmd": "#occsensor"
+                }
+            }
+        },
+        "2": {
+            "113": {
+                "5": {
+                    "udpcmd": "#occsensor"
+                }
+            }
+        },
+        "3": {
+            "113": {
+                "5": {
+                    "udpcmd": "#occsensor"
+                }
+            }
+        },
+        "4": {
+            "113": {
+                "5": {
+                    "udpcmd": "#occsensor"
+                }
+            }
+        }
+    }
+}

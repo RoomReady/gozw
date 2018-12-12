@@ -1,6 +1,6 @@
 package serialapi
 
-import "github.com/gozwave/gozw/protocol"
+import "github.com/rmacster/gozw/protocol"
 
 type ControllerUpdate struct {
 	Status         byte

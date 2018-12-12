@@ -7,7 +7,7 @@ import (
 	"time"
 
 	"github.com/stretchr/testify/assert"
-	"github.com/gozwave/gozw/testutil"
+	"github.com/rmacster/gozw/testutil"
 )
 
 func TestGoodIncomingFrameResultsInAck(t *testing.T) {

@@ -8,7 +8,7 @@ import (
 	"encoding/gob"
 	"errors"
 
-	"github.com/gozwave/gozw/cc"
+	"github.com/rmacster/gozw/cc"
 )
 
 const CommandBulkSet cc.CommandID = 0x07

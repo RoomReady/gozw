@@ -8,9 +8,9 @@ import (
 	"time"
 
 	"github.com/comail/colog"
-	"github.com/gozwave/gozw/cc"
-	"github.com/gozwave/gozw/cc/security"
-	"github.com/gozwave/gozw/serial-api"
+	"github.com/rmacster/gozw/cc"
+	"github.com/rmacster/gozw/cc/security"
+	"github.com/rmacster/gozw/serial-api"
 )
 
 const (

@@ -7,7 +7,7 @@ import (
 	"encoding/gob"
 	"errors"
 
-	"github.com/gozwave/gozw/cc"
+	"github.com/rmacster/gozw/cc"
 )
 
 const CommandOffsetReport cc.CommandID = 0x07

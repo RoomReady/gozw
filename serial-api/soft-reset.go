@@ -3,8 +3,8 @@ package serialapi
 import (
 	"time"
 
-	"github.com/gozwave/gozw/protocol"
-	"github.com/gozwave/gozw/session"
+	"github.com/rmacster/gozw/protocol"
+	"github.com/rmacster/gozw/session"
 )
 
 // WARNING: This can (and often will) cause the device to get a new USB address,

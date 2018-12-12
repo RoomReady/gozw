@@ -6,7 +6,7 @@ package configurationv4
 import (
 	"encoding/gob"
 
-	"github.com/gozwave/gozw/cc"
+	"github.com/rmacster/gozw/cc"
 )
 
 const CommandDefaultReset cc.CommandID = 0x01

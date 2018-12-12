@@ -6,7 +6,7 @@ package time
 import (
 	"encoding/gob"
 
-	"github.com/gozwave/gozw/cc"
+	"github.com/rmacster/gozw/cc"
 )
 
 const CommandDateGet cc.CommandID = 0x03

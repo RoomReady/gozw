@@ -1,25 +1,31 @@
 package application
 
 import (
+	"encoding/hex"
 	"errors"
 	"fmt"
+	"net"
+	"strconv"
+	"strings"
 	"time"
+
+	"github.com/Jeffail/gabs"
 
 	"gopkg.in/vmihailenco/msgpack.v2"
 
 	"github.com/boltdb/bolt"
 	"github.com/davecgh/go-spew/spew"
-	"github.com/gozwave/gozw/cc"
-	"github.com/gozwave/gozw/cc/association"
-	"github.com/gozwave/gozw/cc/battery"
-	"github.com/gozwave/gozw/cc/manufacturer-specific"
-	"github.com/gozwave/gozw/cc/manufacturer-specific-v2"
-	"github.com/gozwave/gozw/cc/security"
-	"github.com/gozwave/gozw/cc/version"
-	"github.com/gozwave/gozw/cc/version-v2"
-	"github.com/gozwave/gozw/protocol"
-	"github.com/gozwave/gozw/serial-api"
-	"github.com/gozwave/gozw/util"
+	"github.com/rmacster/gozw/cc"
+	"github.com/rmacster/gozw/cc/association"
+	"github.com/rmacster/gozw/cc/battery"
+	"github.com/rmacster/gozw/cc/manufacturer-specific"
+	"github.com/rmacster/gozw/cc/manufacturer-specific-v2"
+	"github.com/rmacster/gozw/cc/security"
+	"github.com/rmacster/gozw/cc/version"
+	"github.com/rmacster/gozw/cc/version-v2"
+	"github.com/rmacster/gozw/protocol"
+	"github.com/rmacster/gozw/serial-api"
+	"github.com/rmacster/gozw/util"
 )
 
 // Node is an in-memory representation of a Z-Wave node
@@ -50,6 +56,54 @@ type Node struct {
 	queryStageVersionsComplete     chan bool
 
 	application *Layer
+}
+
+func (n *Node) UDPSend(msg string) {
+	conn, err := net.Dial("udp", "127.0.0.1:10501")
+	//conn, err := net.Dial("udp", "192.168.100.87:"+port)
+	if err != nil {
+		fmt.Printf("Error   : there was a UDP Client issue: %v", err)
+		return
+	} else {
+		//fmt.Println("Status   : UDP net dialed")
+	}
+	defer conn.Close()
+	conn.Write([]byte(msg))
+	msg = strings.Replace(msg, "\n", " - ", -1)
+	fmt.Println("UDPSend  : ", msg)
+	return
+}
+
+func (n *Node) procCommand(nID byte, cmd serialapi.ApplicationCommand) {
+	cClass := cmd.CommandData[0]
+	cCmd := cmd.CommandData[1]
+	fmt.Printf("Node: %03d - CommandClass: \\x%02x - Command: \\x%02x\n------------------------\n", nID, cClass, cCmd)
+	jsonLoaded := false
+	_ = jsonLoaded
+	jsn, err := gabs.ParseJSONFile("/data/zwave.json")
+	if err != nil {
+		fmt.Println(err)
+
+	} else {
+		fmt.Println(jsn.StringIndent("", "    "))
+		jsonLoaded = true
+		if jsn.Exists("nodes", strconv.Itoa(int(nID)), strconv.Itoa(int(cClass)), strconv.Itoa(int(cCmd)), "udpcmd") {
+			n.UDPSend(jsn.Search("nodes", strconv.Itoa(int(nID)), strconv.Itoa(int(cClass)), strconv.Itoa(int(cCmd)), "udpcmd").Data().(string))
+		}
+	}
+	// switch cClass {
+	// case '\x20': // Basic
+	// case '\x30': // Sensor, Binary
+	// 	// Sensors with two states, such as motion detectors and open/closed sensors.
+	// case '\x71': // Notification / Alarm.
+	// 	// look at: cc.Alarm
+	// 	// The Alarm command class was renamed to Notification in version 3.
+	// 	// Used by sensors and other devices to report events.
+	// 	switch cCmd {
+	// 	case '\x05': // seems to be the default for occ sensor notifications.
+	// 		n.UDPSend("#occsensor")
+	// 	}
+	// }
 }
 
 func NewNode(application *Layer, nodeID byte) (*Node, error) {
@@ -370,6 +424,9 @@ func (n *Node) receiveApplicationCommand(cmd serialapi.ApplicationCommand) {
 	command, err := cc.Parse(ver, cmd.CommandData)
 	if err != nil {
 		fmt.Println("error parsing command class", err)
+		fmt.Println("Node", n.NodeID, "- error parsing command class", err, "- Data:", hex.Dump(cmd.CommandData))
+
+		n.procCommand(n.NodeID, cmd)
 		return
 	}
 

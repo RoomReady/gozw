@@ -6,7 +6,7 @@ package doorlockv3
 import (
 	"encoding/gob"
 
-	"github.com/gozwave/gozw/cc"
+	"github.com/rmacster/gozw/cc"
 )
 
 const CommandConfigurationGet cc.CommandID = 0x05

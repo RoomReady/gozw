@@ -1,0 +1,12 @@
+[Unit]
+Description = RRC ZWave Service
+After = network.target 
+
+[Service]
+Type=simple
+ExecStart = /usr/local/bin/rrcZWave
+Restart=always
+StandardOutput=null
+
+[Install]
+WantedBy = multi-user.target
